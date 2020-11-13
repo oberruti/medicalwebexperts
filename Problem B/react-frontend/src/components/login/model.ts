@@ -42,9 +42,9 @@ export class LoginModel {
 
         if (isWorker) {
             this.response = await this.tryToLoginWorker()
+        } else {
+            this.response = await this.tryToLogin()
         }
-
-        this.response = await this.tryToLogin()
 
         if (this.response.status === 'ok') {
             this.cookies.set('access_token', this.response.msg.access_token, {
