@@ -16,7 +16,7 @@ class Serializer(object):
 class User(db.Model, UserMixin):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
-    social_security_number = db.Column(db.String(250), unique=True, nullable=False)
+    security_social_number = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
 
     # son
@@ -38,7 +38,7 @@ class User(db.Model, UserMixin):
 class Worker(db.Model, UserMixin):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
-    social_security_number = db.Column(db.String(250), unique=True, nullable=False)
+    security_social_number = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     worker_id = db.Column(db.String(250), unique=True, nullable=False)
 

@@ -1,37 +1,30 @@
 import axios from 'axios'
-import { Cookies } from 'react-cookie/lib'
 
-export class LoginModel {
+export class SignUpModel {
     email = ''
     password = ''
-    isWorker = false
+    securitySocialNumber = ''
     workerId = ''
+    isWorker = false
     response: any
-    cookies: Cookies
 
-    constructor(cookies: Cookies) {
-        this.cookies = cookies
-        this.response = {
-            msg: '',
-            status: '',
-        }
-    }
-
-    onClickLogin = async (
+    onClickSignUp = async (
         email: string,
         password: string,
+        securitySocialNumber: string,
         isWorker: boolean,
         workerId: string,
         setErrorMessage: (error: string) => void,
-        goToDashboard: () => void
+        goToLogin: () => void
     ): Promise<void> => {
         this.email = email
-        this.password = password
+        this.securitySocialNumber = securitySocialNumber
         this.workerId = workerId
         this.isWorker = isWorker
+        this.password = password
         setErrorMessage('')
 
-        if (email === '' || password === '') {
+        if (email === '' || securitySocialNumber === '' || password === '') {
             setErrorMessage('Please complete all the fields and try again.')
             return
         }
@@ -41,19 +34,13 @@ export class LoginModel {
         }
 
         if (isWorker) {
-            this.response = await this.tryToLoginWorker()
+            this.response = await this.tryToSignUpWorker()
         } else {
-            this.response = await this.tryToLogin()
+            this.response = await this.tryToSignUp()
         }
 
         if (this.response.status === 'ok') {
-            this.cookies.set('access_token', this.response.msg.access_token, {
-                path: '/',
-            })
-            this.cookies.set('isWorker', this.response.msg.is_worker === 'true', {
-                path: '/',
-            })
-            return goToDashboard()
+            return goToLogin()
         }
         if (this.response.msg === '') {
             setErrorMessage('Something went wrong, please try again')
@@ -63,13 +50,14 @@ export class LoginModel {
         return
     }
 
-    tryToLogin = async (): Promise<{ msg: any; status: string }> => {
+    tryToSignUp = async (): Promise<{ msg: any; status: string }> => {
         const response = axios
             .post(
-                '/login',
+                '/sign_up',
                 {
                     email: this.email,
                     password: this.password,
+                    security_social_number: this.securitySocialNumber,
                 },
                 {
                     headers: {
@@ -80,7 +68,7 @@ export class LoginModel {
             .then((response) => {
                 return {
                     status: response.data.status,
-                    msg: response.data.msg || response.data.data,
+                    msg: response.data.msg || '',
                 }
             })
             .catch(() => {
@@ -92,13 +80,14 @@ export class LoginModel {
         return response
     }
 
-    tryToLoginWorker = async (): Promise<{ msg: any; status: string }> => {
+    tryToSignUpWorker = async (): Promise<{ msg: any; status: string }> => {
         const response = axios
             .post(
-                '/login',
+                '/sign_up',
                 {
                     email: this.email,
                     password: this.password,
+                    security_social_number: this.securitySocialNumber,
                     worker_id: this.workerId,
                 },
                 {
@@ -110,7 +99,7 @@ export class LoginModel {
             .then((response) => {
                 return {
                     status: response.data.status,
-                    msg: response.data.msg || response.data.data,
+                    msg: response.data.msg || '',
                 }
             })
             .catch(() => {

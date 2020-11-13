@@ -1,13 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { Style, StyleMap } from 'utils/tsTypes'
 import { HorizontalStack, VerticalStack } from 'common/components/flex'
-import { LoginModel } from 'components/login/model'
-import { Cookies } from 'react-cookie/lib'
-import { Link, useHistory} from 'react-router-dom'
-import userIcon from 'common/img/user-logo.png'
+import { SignUpModel } from './model'
+import {Link, useHistory} from 'react-router-dom'
 
-export const Login = (props: { cookies: Cookies }): JSX.Element => {
-    const model = new LoginModel(props.cookies)
+export const SignUp = (): JSX.Element => {
+    const model = new SignUpModel()
 
     const styles: StyleMap = {
         background: {
@@ -35,16 +33,16 @@ export const Login = (props: { cookies: Cookies }): JSX.Element => {
     return (
         <div style={styles.background}>
             <div style={styles.whiteBox}>
-                <LoginForm model={model} />
+                <SignUpForm model={model} />
                 <BottomOptions />
             </div>
         </div>
     )
 }
 
-const LoginForm = (props: { model: LoginModel }): JSX.Element => {
+const SignUpForm = (props: { model: SignUpModel }): JSX.Element => {
     const styles: StyleMap = {
-        loginForm: {
+        signUpForm: {
             alignSelf: 'center',
         },
         inputForm: {
@@ -59,7 +57,6 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
             borderWidth: '2px',
             borderColor: '#b3b3b3',
             fontFamily: 'New York Medium',
-            borderRadius: '10px',
         },
         isWorker: {
             marginTop: '20px',
@@ -76,31 +73,39 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
             borderColor: '#b3b3b3',
             fontFamily: 'New York Medium',
             borderRadius: '10px',
-        }
+        },
+        signupButton: {
+            marginTop: '20px',
+            width: '320px',
+            height: '42px',
+            background: '#e91e63',
+            borderWidth: 'medium',
+            borderColor: '#b3b3b3',
+            boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)',
+            borderRadius: '22px',
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            fontFamily: 'New York Medium',
+            fontSize: '30px',
+            color: '#FFFFFF',
+            cursor: 'pointer',
+            alignSelf: 'center',
+        },
     }
-
     const [email, setEmail] = useState('')
+    const [securitySocialNumber, setSecuritySocialNumber] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [isWorker, setIsWorker] = useState(false)
     const [workerId, setWorkerId] = useState('')
     const history = useHistory()
-    const goToDashboard = useCallback(() => {
-        history.push('/app/dashboard')
+    const goToLogin = useCallback(() => {
+        history.push('/acc/login')
     }, [])
-    const onClickLogin = () =>
-    props.model.onClickLogin(
-        email,
-        password,
-        isWorker,
-        workerId,
-        setErrorMessage,
-        goToDashboard
-    )
 
     return (
-        <VerticalStack style={{ alignSelf: 'center' }}>
-            <div style={styles.loginForm}>
+        <VerticalStack>
+            <form style={styles.signUpForm}>
                 <VerticalStack>
                     <input
                         style={styles.inputForm}
@@ -124,8 +129,19 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
                             setPassword(event.target.value)
                         }}
                     />
-                    <HorizontalStack 
-                        style={styles.isWorker}>
+                    <input
+                        style={styles.inputForm}
+                        type="text"
+                        name="securitySocialNumber"
+                        required={true}
+                        placeholder="Security Social Number"
+                        value={securitySocialNumber}
+                        onChange={(event) => {
+                            setSecuritySocialNumber(event.target.value)
+                        }}
+                    />
+
+                    <HorizontalStack style={styles.isWorker}>
                         <input
                             type="checkbox"
                             name="checkbox"
@@ -144,8 +160,23 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
                     />
                     {errorMessage}
                 </VerticalStack>
-            </div>
-            <LoginButton onClickLogin={onClickLogin} />
+            </form>
+            <button
+                style={styles.signupButton}
+                onClick={() =>
+                    props.model.onClickSignUp(
+                        email,
+                        password,
+                        securitySocialNumber,
+                        isWorker,
+                        workerId,
+                        setErrorMessage,
+                        goToLogin
+                    )
+                }
+            >
+                Sign Up
+            </button>
         </VerticalStack>
     )
 }
@@ -190,53 +221,27 @@ const MaybeWorkerId = (props: MaybeWorkerId): JSX.Element => {
     )
 }
 
-const LoginButton = (props: {onClickLogin: () => void}) => {
-    const style: Style = {
-        marginTop: '10px',
-        width: '280px',
-        height: '30px',
-        background: '#e91e63',
-        borderWidth: '1px',
-        borderColor: '#b3b3b3',
-        boxShadow: '0 1px 1px rgba(0, 0, 0, 0.25)',
-        borderRadius: '10px',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontFamily: 'New York Medium',
-        fontSize: '20px',
-        color: '#FFFFFF',
-        cursor: 'pointer'
-    }
-    return (
-        <button
-                style={style}
-                onClick={props.onClickLogin}
-            >
-                Log In
-            </button>
-    )
-}
-
 const BottomOptions = (): JSX.Element => {
     const styles: StyleMap = {
-        signUp: {
+        bottomLinks: {
+            width: '500px',
+            alignSelf: 'center',
+        },
+        loginButton: {
             marginTop: '25px',
+            marginBottom: '20px',
             fontStyle: 'normal',
             fontWeight: 'normal',
             fontSize: '20px',
             color: 'black',
             textDecoration: 'none',
         },
-        bottomLinks: {
-            width: '500px',
-            alignSelf: 'center',
-        },
     }
+
     return (
         <VerticalStack style={styles.bottomLinks}>
-            <Link style={styles.signUp} to={'/acc/signup'}>
-                <p>Don't have an account yet?</p>
-                <p>Sign Up</p>
+            <Link style={styles.loginButton} to={'/acc/login'}>
+                Already registered? Login
             </Link>
         </VerticalStack>
     )

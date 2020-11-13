@@ -82,6 +82,8 @@ def is_worker_registered(email, password, worker_id):
     temporal_worker = Worker.query.filter_by(email=email).first()
     if temporal_worker is None:
         return False
+    if temporal_worker.worker_id != worker_id:
+        return False
     return bcrypt.check_password_hash(temporal_worker.password, password)
 
 
