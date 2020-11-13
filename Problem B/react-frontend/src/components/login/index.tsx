@@ -156,7 +156,7 @@ interface MaybeWorkerId {
     isWorker: boolean
 }
 
-const MaybeWorkerId = (props:any): JSX.Element => {
+const MaybeWorkerId = (props: MaybeWorkerId): JSX.Element => {
     if (!props.isWorker) {
        return <></> 
     }
