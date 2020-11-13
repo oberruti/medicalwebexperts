@@ -2,10 +2,10 @@ import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { Login } from './components/login'
 import { SignUp } from './components/signUp'
-import { ExternalDashboard } from './components/dashboard'
-import { InternalDashboard } from './components/dashboard'
+// import { ExternalDashboard } from './components/dashboard'
+// import { InternalDashboard } from './components/dashboard'
 import { Cookies, withCookies } from 'react-cookie/lib'
-import { isNotNil } from './utils/checks'
+import { isNil, isNotNil } from './utils/checks'
 
 interface RoutesAppProps {
     cookies: Cookies
@@ -84,8 +84,9 @@ const Acc = (props: { cookies: Cookies }): JSX.Element => {
 const External = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
     if (accessToken && isNotNil(accessToken)) {
-        const isNotWorker = !props.cookies.get('isWorker')
-        if (isNotWorker && isNotNil(isNotWorker)) {
+        const isWorker = props.cookies.get('isWorker')
+        const isExternal = isWorker == 'false' || isNil(isWorker)
+        if (isExternal) {
             return (
                 <Switch>
                     <Route exact path="/app/external">
@@ -93,7 +94,8 @@ const External = (props: { cookies: Cookies }): JSX.Element => {
                     </Route>
                     <Route
                         path={'/app/external/dashboard'}
-                        render={() => <ExternalDashboard cookies={props.cookies} />}
+                        // render={() => <ExternalDashboard cookies={props.cookies} />}
+                        render={() => <></>}
                     />
                 </Switch>
             )
@@ -116,7 +118,8 @@ const Internal = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
     if (accessToken && isNotNil(accessToken)) {
         const isWorker = props.cookies.get('isWorker')
-        if (isWorker && isNotNil(isWorker)) {
+        const isInternal = isWorker == 'true'
+        if (isInternal) {
             return (
                 <Switch>
                     <Route exact path="/app/internal">
@@ -124,7 +127,8 @@ const Internal = (props: { cookies: Cookies }): JSX.Element => {
                     </Route>
                     <Route
                         path={'/app/internal/dashboard'}
-                        render={() => <InternalDashboard cookies={props.cookies} />}
+                        // render={() => <InternalDashboard cookies={props.cookies} />}
+                        render={() => <></>}
                     />
                 </Switch>
             )

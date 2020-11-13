@@ -4,7 +4,6 @@ import { HorizontalStack, VerticalStack } from 'common/components/flex'
 import { LoginModel } from 'components/login/model'
 import { Cookies } from 'react-cookie/lib'
 import { Link, useHistory} from 'react-router-dom'
-import userIcon from 'common/img/user-logo.png'
 
 export const Login = (props: { cookies: Cookies }): JSX.Element => {
     const model = new LoginModel(props.cookies)
@@ -85,8 +84,11 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
     const [isWorker, setIsWorker] = useState(false)
     const [workerId, setWorkerId] = useState('')
     const history = useHistory()
-    const goToDashboard = useCallback(() => {
-        history.push('/app/dashboard')
+    const goToDashboardExternal = useCallback(() => {
+        history.push('/app/external/dashboard')
+    }, [])
+    const goToDashboardInternal = useCallback(() => {
+        history.push('/app/internal/dashboard')
     }, [])
     const onClickLogin = () =>
     props.model.onClickLogin(
@@ -95,7 +97,8 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
         isWorker,
         workerId,
         setErrorMessage,
-        goToDashboard
+        goToDashboardExternal,
+        goToDashboardInternal,
     )
 
     return (
