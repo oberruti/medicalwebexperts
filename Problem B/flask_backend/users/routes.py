@@ -34,8 +34,8 @@ def sign_up():
     if request.method == "POST":
         email = request.json.get("email", None)
         password = request.json.get("password", None)
-        security_social_number = request.json.get("ssn", None)
-        worker_id = request.json.get("workerId", None)
+        security_social_number = request.json.get("security_social_number", None)
+        worker_id = request.json.get("worker_id", None)
         if not email:
             return dict(status="error", msg="Missing email")
         if not password:
