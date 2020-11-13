@@ -69,14 +69,14 @@ def log_in():
                 user = User.query.filter_by(email=email).first()
                 expires = timedelta(days=365)
                 access_token = create_access_token(identity=user.email, expires_delta=expires)
-                return dict(status="ok", data=dict(access_token=access_token))
+                return dict(status="ok", data=dict(access_token=access_token, is_worker='false'))
             return dict(status="error", msg="Bad user name or password")
         worker_registered = is_worker_registered(email, password, worker_id)
         if worker_registered:
             worker = Worker.query.filter_by(email=email).first()
             expires = timedelta(days=365)
-            access_token = create_access_token(identity=user.email, expires_delta=expires)
-            return dict(status="ok", data=dict(access_token=access_token))
+            access_token = create_access_token(identity=worker.email, expires_delta=expires)
+            return dict(status="ok", data=dict(access_token=access_token, is_worker='true'))
         return dict(status="error", msg="Bad user name or password or worker id")
     return dict(status="error", msg="Request not allowed")
 
