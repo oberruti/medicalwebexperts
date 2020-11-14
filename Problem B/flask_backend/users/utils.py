@@ -1,6 +1,6 @@
 import datetime
 
-from flask_backend.models import User, Appointment, Worker, AppointmentType
+from flask_backend.models import User, Appointment, Worker, Appointmenttype
 from flask_backend import db, bcrypt
 
 
@@ -17,7 +17,7 @@ def is_appointment_id_valid(appointment_id):
 
 def register_appointment(email, day, initial_hour, final_hour, appointment_type_name):
     user_id = User.query.filter_by(email=email).first().id
-    appointment_type = AppointmentType.query.filter_by(name=appointment_type_name).first()
+    appointment_type = Appointmenttype.query.filter_by(name=appointment_type_name).first()
     try:
         registered_appointment = Appointment(email=email, day=day, initial_hour=initial_hour, final_hour=final_hour, user_id=user_id, appointment_type=appointment_type)
         db.session.add(registered_appointment)
@@ -29,7 +29,7 @@ def register_appointment(email, day, initial_hour, final_hour, appointment_type_
 
 def modify_appointment(appointment_id, day, initial_hour, final_hour, appointment_type_name):
     appointment = Appointment.query.filter_by(id=appointment_id).first()
-    appointment_type = AppointmentType.query.filter_by(name=appointment_type_name).first()
+    appointment_type = Appointmenttype.query.filter_by(name=appointment_type_name).first()
     try:
         appointment.day = day
         appointment.initial_hour = initial_hour
