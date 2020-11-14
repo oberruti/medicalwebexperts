@@ -1,13 +1,13 @@
 import * as React from 'react'
 
 import { JustChildren, Style, StyleMap } from 'utils/tsTypes'
-import { Colors, Dimensions } from 'style'
+import { Dimensions } from 'style'
 import { HorizontalStack, VerticalStack } from 'common/components/flex'
 
 function StaticPositionMainContainer(props: JustChildren): JSX.Element {
     const style: Style = {
         background: '#333',
-        color: Colors.primary.light,
+        color: 'white',
         height: '100%',
         width: Dimensions.width.nav,
         flex: `0 0 ${Dimensions.width.nav}px`,

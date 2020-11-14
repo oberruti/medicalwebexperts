@@ -2,10 +2,10 @@ import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { Login } from './components/login'
 import { SignUp } from './components/signUp'
-// import { ExternalDashboard } from './components/dashboard'
 // import { InternalDashboard } from './components/dashboard'
 import { Cookies, withCookies } from 'react-cookie/lib'
 import { isNil, isNotNil } from './utils/checks'
+import { ExternalDashboard } from 'components/dashboard/external'
 
 interface RoutesAppProps {
     cookies: Cookies
@@ -94,8 +94,7 @@ const External = (props: { cookies: Cookies }): JSX.Element => {
                     </Route>
                     <Route
                         path={'/app/external/dashboard'}
-                        // render={() => <ExternalDashboard cookies={props.cookies} />}
-                        render={() => <></>}
+                        render={() => <ExternalDashboard cookies={props.cookies} />}
                     />
                 </Switch>
             )
