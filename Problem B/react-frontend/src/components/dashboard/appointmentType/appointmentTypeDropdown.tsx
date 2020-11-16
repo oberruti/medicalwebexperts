@@ -3,13 +3,14 @@ import React, { useCallback, useState, useEffect, Fragment } from "react"
 import { Cookies } from "react-cookie/lib"
 import Select from "react-select"
 import { backgroundColor } from "style"
-import { getValueOrDefault } from "utils/checks"
+import { getValueOrDefault, nil } from "utils/checks"
 import { Style, StyleMap } from "utils/tsTypes"
 import { AppointmentType } from './common';
 import { AppointmentTypeModel } from "./model"
 
 interface AppointmentTypeDropdownProps {
     cookies: Cookies
+    email: string | nil
     setIsAppointmentTypeSelected: React.Dispatch<React.SetStateAction<boolean>>
     setAppointmentTypeSelected: React.Dispatch<React.SetStateAction<number>>
 }
@@ -76,6 +77,10 @@ export const AppointmentTypeDropdown = (props: AppointmentTypeDropdownProps): JS
         },
         [setIsOptionSelected, props.setIsAppointmentTypeSelected]
     )
+
+    if (props.email === '') {
+        return <></>
+    }
 
     return (
             <VerticalStack style={styles.container}>

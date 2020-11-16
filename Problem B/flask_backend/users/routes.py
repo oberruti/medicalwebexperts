@@ -28,6 +28,19 @@ def check_if_token_in_blacklist(decrypted_token):
 
 # USER METHODS
 
+@users.route('/check_email', methods=["POST"])
+@jwt_required
+def check_email():
+    if request.method == "POST":
+        email = request.json.get("email", None)
+        if not email:
+            return dict(status="error", msg="Missing email")
+        temporal_user = User.query.filter_by(email=email).first()
+        if temporal_user is None:
+            return dict(status="error", msg="false")
+        return dict(status="ok")
+    return dict(status="error", msg="Request not allowed")
+
 
 @users.route('/sign_up', methods=["POST"])
 def sign_up():

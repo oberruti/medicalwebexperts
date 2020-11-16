@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { isNil, nil } from 'utils/checks'
 import { Appointment } from './common'
 
 export class AppointmentModel {
@@ -10,6 +11,7 @@ export class AppointmentModel {
         initial_hour: string,
         final_hour: string,
         appointment_type_name: string,
+        email: string | nil,
         setErrorMessage: (value: string) => void,
     ): Promise<boolean> => {
         const response = await this.saveAppointment(
@@ -17,6 +19,7 @@ export class AppointmentModel {
             initial_hour,
             final_hour,
             appointment_type_name,
+            email,
         )
 
         if (response.status === 'ok') {
@@ -35,16 +38,24 @@ export class AppointmentModel {
         initial_hour: string,
         final_hour: string,
         appointment_type_name: string,
+        email: string | nil,
     ): Promise<{ msg: any; status: string }> => {
+        const params = isNil(email) ? {
+            day,
+            initial_hour,
+            final_hour,
+            appointment_type_name,
+        } : {
+            day,
+            initial_hour,
+            final_hour,
+            appointment_type_name,
+            email,
+        }
         const response = axios
             .post(
                 '/appointment',
-                {
-                    day,
-                    initial_hour,
-                    final_hour,
-                    appointment_type_name,
-                },
+                params,
                 {
                     headers: {
                         'Content-Type': 'application/json',

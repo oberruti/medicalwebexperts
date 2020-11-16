@@ -1,11 +1,14 @@
 import * as React from 'react'
 
 import {
+    InternalAddAppointment,
+    InternalDeleteAppointment,
     LogoutMenu,
 } from './singleLinkMenu'
 import { Cookies } from 'react-cookie/lib'
 import { NavigationContainer, MainContainer, TopContainer, MiddleContainer, BottomContainer } from 'components/app/common'
 import { Style } from 'utils/tsTypes'
+import { InternalEditAppointment } from './singleLinkMenu';
 
 /**
  * Internal Navigation bar
@@ -16,15 +19,13 @@ export function InternalNavigation(props: { cookies: Cookies }): JSX.Element {
         <NavigationContainer>
             <MainContainer>
                 <TopContainer>
-                    <EntrySeparator style={{ flexBasis: 12 }} />
-                    {/* <InternalCreateAppointment /> */}
-                    <EntrySeparator style={{ flexBasis: 10 }} />
+                    <InternalAddAppointment />
+                    <EntrySeparator style={{ flexBasis: 25 }} />
                 </TopContainer>
                 <MiddleContainer>
+                    <InternalEditAppointment />
                     <EntrySeparator />
-                    {/* <ModifyAppointment /> */}
-                    <EntrySeparator />
-                    {/* <ManageHoursOfOperation /> */}
+                    <InternalDeleteAppointment />
                     <EntrySeparator />
                 </MiddleContainer>
                 <BottomContainer>
