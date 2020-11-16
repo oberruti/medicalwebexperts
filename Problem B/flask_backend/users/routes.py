@@ -28,6 +28,19 @@ def check_if_token_in_blacklist(decrypted_token):
 
 # USER METHODS
 
+@users.route('/check_email', methods=["POST"])
+@jwt_required
+def check_email():
+    if request.method == "POST":
+        email = request.json.get("email", None)
+        if not email:
+            return dict(status="error", msg="Missing email")
+        temporal_user = User.query.filter_by(email=email).first()
+        if temporal_user is None:
+            return dict(status="error", msg="false")
+        return dict(status="ok")
+    return dict(status="error", msg="Request not allowed")
+
 
 @users.route('/sign_up', methods=["POST"])
 def sign_up():
@@ -195,5 +208,26 @@ def get_appointment_type():
 def get_appointment_types():
     if request.method == "GET":
         appointments_types = Appointmenttype.query.all()
-        return dict(status="ok", data=dict(appointmenttypes=Appointmenttype.serialize_list(elements=appointments_types)))
+        final = []
+        for at in appointments_types:
+            appointments = []
+            for ap in at.appointment:
+                appointments.append({
+                    'id': ap.id,
+                    'day': ap.day,
+                    'initial_hour': ap.initial_hour,
+                    'final_hour': ap.final_hour,
+                    'user_id': ap.user_id,
+                    'appointment_type': ap.appointment_type,
+                })
+            final.append({
+            'id': at.id,
+            'name': at.name,
+            'initial_hour':at.initial_hour,
+            'final_hour': at.final_hour,
+            'duration': at.duration,
+            'spots': at.spots,
+            'appointment': appointments,
+        })
+        return dict(status="ok", data=dict(appointmenttypes=final))
     return dict(status="error", msg="Request not allowed")

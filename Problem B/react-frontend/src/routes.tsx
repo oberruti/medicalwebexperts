@@ -6,6 +6,10 @@ import { SignUp } from './components/signUp'
 import { Cookies, withCookies } from 'react-cookie/lib'
 import { isNil, isNotNil } from './utils/checks'
 import { ExternalDashboard } from 'components/dashboard/external'
+import { InternalDashboard } from 'components/dashboard/internal'
+import { InternalAddAppointment } from './components/internal/add/index';
+import { InternalEditAppointment } from 'components/internal/edit'
+import { InternalDeleteAppointment } from 'components/internal/delete'
 
 interface RoutesAppProps {
     cookies: Cookies
@@ -126,8 +130,19 @@ const Internal = (props: { cookies: Cookies }): JSX.Element => {
                     </Route>
                     <Route
                         path={'/app/internal/dashboard'}
-                        // render={() => <InternalDashboard cookies={props.cookies} />}
-                        render={() => <></>}
+                        render={() => <InternalDashboard cookies={props.cookies} />}
+                    />
+                    <Route
+                        path={'/app/internal/add'}
+                        render={() => <InternalAddAppointment cookies={props.cookies} />}
+                    />
+                    <Route
+                        path={'/app/internal/edit'}
+                        render={() => <InternalEditAppointment cookies={props.cookies} />}
+                    />
+                    <Route
+                        path={'/app/internal/delete'}
+                        render={() => <InternalDeleteAppointment cookies={props.cookies} />}
                     />
                 </Switch>
             )
