@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getValueOrDefault } from 'utils/checks'
 import { noop } from 'utils/utils'
+import { processAppointments } from '../appointment/model'
 import { AppointmentType } from './common'
 
 export class AppointmentTypeModel {
@@ -58,8 +59,7 @@ export const processAppointmentTypes = (appointmenttypes: any): AppointmentType[
                 finalHour: appointmenttype.final_hour,
                 duration: appointmenttype.duration,
                 spots: appointmenttype.spots,
-                appointments: appointmenttype.appointment,
-                //appointments: processAppointments(appointmenttype.appointment)
+                appointments: processAppointments(appointmenttype.appointment),
             }
         })
     }
@@ -71,8 +71,7 @@ export const processAppointmentTypes = (appointmenttypes: any): AppointmentType[
                 finalHour: appointmenttypes.final_hour,
                 duration: appointmenttypes.duration,
                 spots: appointmenttypes.spots,
-                appointments: appointmenttypes.appointment,
-                //appointments: processAppointments(appointmenttypes.appointment)
+                appointments: processAppointments(appointmenttypes.appointment),
         },
     ]
 }

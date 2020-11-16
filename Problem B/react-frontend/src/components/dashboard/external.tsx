@@ -209,8 +209,6 @@ const HourPicker = (props: HourPickerProps): JSX.Element => {
 
     const isHourSelected = hourSelected.minutes != emptyHour.minutes
 
-    console.log(hourSelected, emptyHour, isHourSelected)
-
     return (
         <VerticalStack>
             <HourDropdown 

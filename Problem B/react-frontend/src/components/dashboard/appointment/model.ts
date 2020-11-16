@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Appointment } from './common'
 
 export class AppointmentModel {
     constructor(private accessToken: string) {
@@ -65,4 +66,28 @@ export class AppointmentModel {
             })
         return await response
     }
+}
+
+
+export const processAppointments = (appointments: any): Appointment[] => {
+    if (Array.isArray(appointments)) {
+        return appointments.map((appointment: any) => {
+            return {
+                userId: appointment.user_id,
+                appointmentTypeId: appointment.appointment_type,
+                day: appointment.day,
+                initialHour: appointment.initial_hour,
+                finalHour: appointment.final_hour,
+            }
+        })
+    }
+    return [
+        {
+            userId: appointments.user_id,
+                appointmentTypeId: appointments.appointment_type,
+                day: appointments.day,
+                initialHour: appointments.initial_hour,
+                finalHour: appointments.final_hour,
+        },
+    ]
 }

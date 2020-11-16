@@ -15,7 +15,7 @@ export class HourModel {
             spots: '',
         })
         const appointments = appointmentTypeSelected.appointments
-        const dateAppointments = appointments.filter(appointment => (new Date(appointment.day))==date)
+        const dateAppointments = appointments.filter(appointment => appointment.day==date.toString())
         const baseHours = this.getBaseHours(appointmentTypeSelected)
         const dateHoursNonAvailable = this.getNonAvailableHours(dateAppointments)
         return this.getAvailableHours(baseHours, dateHoursNonAvailable)
@@ -39,7 +39,8 @@ export class HourModel {
     getNonAvailableHours = (appointments: Appointment[]) => {
         const hours: number[] = []
         appointments.forEach(appointment => {
-            hours.push(Number.parseInt(appointment.initialHour))
+            const hourInt = Number.parseInt(appointment.initialHour)
+            hours.push(hourInt)
         })
         return hours
     }
