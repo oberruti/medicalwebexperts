@@ -1,11 +1,11 @@
 from flask_backend import db, create_app
 from flask_backend.config import Config
-from flask_backend.models import AppointmentType
+from flask_backend.models import Appointmenttype
 
 app = create_app(Config)
 
 def check_appointment_types():
-    appointment_types = AppointmentType.query.all()
+    appointment_types = Appointmenttype.query.all()
     return len(appointment_types) > 0
 
 
@@ -21,7 +21,7 @@ def create_jedi_stress_management():
     final_hour = "840" # 840/60minutes = 14 hs
     duration = "45" #minutes
     spots = "4"
-    registered_appointment_type = AppointmentType(name=name, initial_hour=initial_hour, final_hour=final_hour, duration=duration, spots=spots)
+    registered_appointment_type = Appointmenttype(name=name, initial_hour=initial_hour, final_hour=final_hour, duration=duration, spots=spots)
     db.session.add(registered_appointment_type)
     db.session.commit()
 
@@ -33,7 +33,7 @@ def create_light_saber_skills():
     final_hour = "840" # 840/60minutes = 14 hs
     duration = "45" #minutes
     spots = "4"
-    registered_appointment_type = AppointmentType(name=name, initial_hour=initial_hour, final_hour=final_hour, duration=duration, spots=spots)
+    registered_appointment_type = Appointmenttype(name=name, initial_hour=initial_hour, final_hour=final_hour, duration=duration, spots=spots)
     db.session.add(registered_appointment_type)
     db.session.commit()
 
@@ -44,7 +44,7 @@ def create_fighting_the_dark_side():
     final_hour = "960" # 960/60minutes = 16 hs
     duration = "60" #minutes
     spots = "1"
-    registered_appointment_type = AppointmentType(name=name, initial_hour=initial_hour, final_hour=final_hour, duration=duration, spots=spots)
+    registered_appointment_type = Appointmenttype(name=name, initial_hour=initial_hour, final_hour=final_hour, duration=duration, spots=spots)
     db.session.add(registered_appointment_type)
     db.session.commit()
 

@@ -23,7 +23,8 @@ export class LoginModel {
         isWorker: boolean,
         workerId: string,
         setErrorMessage: (error: string) => void,
-        goToDashboard: () => void
+        goToDashboardExternal: () => void,
+        goToDashboardInternal: () => void
     ): Promise<void> => {
         this.email = email
         this.password = password
@@ -53,7 +54,10 @@ export class LoginModel {
             this.cookies.set('isWorker', this.response.msg.is_worker === 'true', {
                 path: '/',
             })
-            return goToDashboard()
+            if (isWorker) {
+                return goToDashboardInternal()
+            }
+            return goToDashboardExternal()
         }
         if (this.response.msg === '') {
             setErrorMessage('Something went wrong, please try again')

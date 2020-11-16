@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from flask import Blueprint, request, session
 from flask_backend import jwt
-from flask_backend.models import User, Worker, Appointment
+from flask_backend.models import User, Worker, Appointment, Appointmenttype
 from flask_backend.users.utils import register_user, register_worker, is_user_registered, is_worker_registered, register_appointment, is_appointment_id_valid, delete_appointment, modify_appointment
 from flask_jwt_extended import create_access_token, jwt_required, get_raw_jwt, get_jwt_identity
 
@@ -102,7 +102,7 @@ def appointment():
             appointment_type_name
         )
         if registered_appointment['status'] == "ok":
-            return dict(status="ok", task=registered_appointment['data'])
+            return dict(status="ok")
         return dict(status="error", msg=registered_appointment['msg'])
 
     if request.method == "DELETE":
@@ -168,3 +168,32 @@ def get_tasks():
     return dict(status="error", msg="Request not allowed")
 
 
+# APPOINTMENT TYPES
+
+@users.route('/getappointmenttype', methods=["POST"])
+@jwt_required
+def get_appointment_type():
+    if request.method == "POST":
+        appointment_type_id = request.json.get("id", None)
+        appointment_type = Appointmenttype.query.filter_by(id=appointment_type_id).first()
+        if appointment_type is None:
+            return dict(status="error", msg="Appointment type not found")
+        return dict(status="ok", data=dict(appointmenttype={
+            'id': appointment_type.id,
+            'name': appointment_type.name,
+            'initial_hour':appointment_type.initial_hour,
+            'final_hour': appointment_type.final_hour,
+            'duration': appointment_type.duration,
+            'spots': appointment_type.spots,
+            'appointment': appointment_type.serialize_list(elements=appointment_type.appointment),
+        }))
+    return dict(status="error", msg="Request not allowed")
+
+
+@users.route('/appointmenttypes', methods=["GET"])
+@jwt_required
+def get_appointment_types():
+    if request.method == "GET":
+        appointments_types = Appointmenttype.query.all()
+        return dict(status="ok", data=dict(appointmenttypes=Appointmenttype.serialize_list(elements=appointments_types)))
+    return dict(status="error", msg="Request not allowed")
