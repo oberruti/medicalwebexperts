@@ -12,13 +12,21 @@ Please once located in `/problem b/react-frontend` read that `README.md` file to
 Status:
 
 Problem A: Done
+
 Problem B:
+
 -Backend: (SQL-MODELS-METHODS-API) Done.
+
 -Frontend:
+
 --External users: Done
+
 --Internal users:
+
 ---Add an appointment: Done
+
 ---Modify an appointment: Still in progress.
+
 ---Delete an appointment: Still in progress.
 
 Thanks, 
