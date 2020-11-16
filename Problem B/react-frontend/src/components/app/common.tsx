@@ -3,10 +3,11 @@ import * as React from 'react'
 import { JustChildren, Style, StyleMap } from 'utils/tsTypes'
 import { Dimensions } from 'style'
 import { HorizontalStack, VerticalStack } from 'common/components/flex'
+import { backgroundColor } from '../../style';
 
-function StaticPositionMainContainer(props: JustChildren): JSX.Element {
+export function MainContainer(props: JustChildren): JSX.Element {
     const style: Style = {
-        background: '#333',
+        background: backgroundColor,
         color: 'white',
         height: '100%',
         width: Dimensions.width.nav,
@@ -15,15 +16,7 @@ function StaticPositionMainContainer(props: JustChildren): JSX.Element {
     return <VerticalStack style={style}>{props.children}</VerticalStack>
 }
 
-export function MainContainer(props: JustChildren): JSX.Element {
-    return (
-        <StaticPositionMainContainer>
-            {props.children}
-        </StaticPositionMainContainer>
-    )
-}
-
-function StaticPositionNavContainer(props: JustChildren): JSX.Element {
+export function NavigationContainer(props: JustChildren): JSX.Element {
     const style: Style = {
         display: 'block',
         width: Dimensions.width.nav,
@@ -31,14 +24,6 @@ function StaticPositionNavContainer(props: JustChildren): JSX.Element {
         border: `3px solid #000000`,
     }
     return <div style={style}>{props.children}</div>
-}
-
-export function NavigationContainer(props: JustChildren): JSX.Element {
-    return (
-        <StaticPositionNavContainer>
-            {props.children}
-        </StaticPositionNavContainer>
-    )
 }
 
 export function TopContainer(props: JustChildren): JSX.Element {
@@ -61,25 +46,16 @@ export function BottomContainer(props: JustChildren): JSX.Element {
     return <VerticalStack style={style}>{props.children}</VerticalStack>
 }
 
-function RelativePositionAppContent(props: JustChildren): JSX.Element {
+export function AppContent(props: JustChildren): JSX.Element {
     const style: Style = {
-        backgroundColor: '#222',
+        backgroundColor: backgroundColor,
         display: 'block',
         position: 'relative',
         width: Dimensions.width.content + Dimensions.width.nav,
         minHeight: '100%',
         height: 'auto',
-        boxShadow: '5px 0 20px -15px',
     }
     return <div style={style}>{props.children}</div>
-}
-
-export function AppContent(props: JustChildren): JSX.Element {
-    return (
-        <RelativePositionAppContent>
-            {props.children}
-        </RelativePositionAppContent>
-    )
 }
 
 export class Layout extends React.Component<JustChildren> {
@@ -95,7 +71,7 @@ export class Layout extends React.Component<JustChildren> {
                 width: '100%',
                 height: '100%',
                 display: 'flex',
-                backgroundColor: '#222',
+                backgroundColor: backgroundColor,
             },
             innerContainer: {
                 position: 'relative',
@@ -104,7 +80,7 @@ export class Layout extends React.Component<JustChildren> {
                 margin: 'auto',
                 height: 'auto',
                 display: 'flex',
-                backgroundColor: '#222',
+                backgroundColor: backgroundColor,
             },
         }
         return (

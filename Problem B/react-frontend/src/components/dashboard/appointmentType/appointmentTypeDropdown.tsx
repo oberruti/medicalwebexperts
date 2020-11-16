@@ -2,14 +2,16 @@ import { VerticalStack } from "common/components/flex"
 import React, { useCallback, useState, useEffect, Fragment } from "react"
 import { Cookies } from "react-cookie/lib"
 import Select from "react-select"
+import { backgroundColor } from "style"
 import { getValueOrDefault } from "utils/checks"
 import { Style, StyleMap } from "utils/tsTypes"
+import { AppointmentType } from './common';
 import { AppointmentTypeModel } from "./model"
 
 interface AppointmentTypeDropdownProps {
     cookies: Cookies
     setIsAppointmentTypeSelected: React.Dispatch<React.SetStateAction<boolean>>
-    setAppointmentTypeSelected: React.Dispatch<React.SetStateAction<string>>
+    setAppointmentTypeSelected: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const AppointmentTypeDropdown = (props: AppointmentTypeDropdownProps): JSX.Element => {
@@ -17,10 +19,10 @@ export const AppointmentTypeDropdown = (props: AppointmentTypeDropdownProps): JS
     const [errorMessage, setErrorMessage] = useState('')
 
     /*
-     * TaskModel
+     * Appointment Type Model
      */
     const model = new AppointmentTypeModel(accessToken)
-    const emptyAppointmentTypes: any = []
+    const emptyAppointmentTypes: AppointmentType[] = []
     const [appointmentTypes, setAppointmentTypes] = useState(emptyAppointmentTypes)
 
     const loadAppointmentTypes = useCallback(async () => {
@@ -41,26 +43,22 @@ export const AppointmentTypeDropdown = (props: AppointmentTypeDropdownProps): JS
     const styles: StyleMap = {
         container: {
             margin: '0',
-            padding: '0',
+            padding: '30px',
             display: 'flex',
-            gridTemplateColumns: '1fr',
-            gridRow: '1fr',
             placeItems: 'center',
             alignItems: 'center',
-            width: '100%',
-            height: '100%',
-            background: '#222',
+            background: backgroundColor,
         },
         dropdown: {
             width: '350px',
-            marginTop: '50px',
+            marginTop: '20px',
             marginBottom: '0px',
             fontFamily: 'Arial',
         },
         title: {
             marginTop: '5%',
             textAlign: 'center',
-            color: 'white',
+            color: 'black',
             fontSize: '20px',
             fontFamily: 'Arial',
         },
@@ -71,12 +69,12 @@ export const AppointmentTypeDropdown = (props: AppointmentTypeDropdownProps): JS
     const onOptionSelected = useCallback(
         (maybeValue: any) => {
             const value = getValueOrDefault(maybeValue, { value: '' })
-            props.setAppointmentTypeSelected(value.value)
             setIsOptionSelected(value.value !== '')
             props.setIsAppointmentTypeSelected(value.value !== '')
+            props.setAppointmentTypeSelected(value.value)
 
         },
-        [setIsOptionSelected, props.setIsAppointmentTypeSelected, props.setAppointmentTypeSelected]
+        [setIsOptionSelected, props.setIsAppointmentTypeSelected]
     )
 
     return (
@@ -101,7 +99,7 @@ interface DropdownProps {
 }
 
 const Dropdown = (props: DropdownProps): JSX.Element => {
-    const options = props.appointmentTypes.map((appointmentType: any) => {
+    const options = props.appointmentTypes.map((appointmentType: AppointmentType) => {
         return {
             label: appointmentType.name,
             value: appointmentType.id,
@@ -111,11 +109,12 @@ const Dropdown = (props: DropdownProps): JSX.Element => {
         ? 'There is not appointment type available.'
         : ''
     const style: Style = {
-        color: 'white',
+        color: 'black',
         marginTop: '5%',
         display: 'flex',
         marginLeft: '10%',
     }
+    
     return (
         <div style={props.style}>
             <Fragment>
@@ -125,7 +124,7 @@ const Dropdown = (props: DropdownProps): JSX.Element => {
                     isDisabled={props.isDisabled}
                     isClearable={true}
                     isSearchable={true}
-                    name="Subjects"
+                    name="Appointments"
                     options={options}
                     onChange={props.onChange}
                 />

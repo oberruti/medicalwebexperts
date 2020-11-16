@@ -7,6 +7,8 @@ const twelfthColumnMargin = 20
 const fullWidth = 1280
 const navWidth = 60
 
+export const backgroundColor = 'rgb(209 232 247)'
+
 export const Dimensions = {
     fonts: {
         spacing1: '.75px',
