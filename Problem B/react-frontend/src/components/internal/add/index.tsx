@@ -23,10 +23,16 @@ export const InternalAddAppointment = (props: { cookies: Cookies }): JSX.Element
         height: '100%',
         overflowY: 'hidden',
         alignContent: 'center',
+        marginTop: '30px',
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            fontSize: '20px',
+            fontFamily: 'New York Medium',
     }
     return (
         <InternalLayout cookies={props.cookies}>
             <VerticalStack style={style}>
+                Please write the user email and check it:
                 <EmailForm email={email} setEmail={setEmail}/>
                 <MaybeForm
                     cookies={props.cookies}
@@ -78,7 +84,7 @@ const MaybeForm = (props: {cookies: Cookies, email: string}): JSX.Element => {
     if (!isEmailValid) {
         return (
             <VerticalStack>
-                <div style={{paddingTop: '5px', color: 'black'}}>Email invalid! Write new one and check again.</div>
+                <div style={{paddingTop: '5px', color: 'black'}}>Email invalid! Write a new one and check again.</div>
                 <div style={style} onClick={onClick}>Check</div>
             </VerticalStack>
         )

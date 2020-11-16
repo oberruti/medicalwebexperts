@@ -3,7 +3,7 @@ import { Style } from 'utils/tsTypes'
 
 export const EmailForm = (props: {email: string, setEmail: React.Dispatch<React.SetStateAction<string>>}): JSX.Element => {
     const style: Style = {
-            marginTop: '40px',
+            marginTop: '10px',
             width: '280px',
             height: '25px',
             textAlign: 'center',
