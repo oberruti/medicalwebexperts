@@ -71,7 +71,6 @@ class Appointmenttype(db.Model):
 
     def serialize(self):
         d = Serializer.serialize(self)
-        del d['appointment']
         return d
 
     @staticmethod

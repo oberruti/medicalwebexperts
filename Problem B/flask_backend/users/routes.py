@@ -102,7 +102,7 @@ def appointment():
             appointment_type_name
         )
         if registered_appointment['status'] == "ok":
-            return dict(status="ok", task=registered_appointment['data'])
+            return dict(status="ok")
         return dict(status="error", msg=registered_appointment['msg'])
 
     if request.method == "DELETE":
@@ -178,7 +178,15 @@ def get_appointment_type():
         appointment_type = Appointmenttype.query.filter_by(id=appointment_type_id).first()
         if appointment_type is None:
             return dict(status="error", msg="Appointment type not found")
-        return dict(status="ok", data=dict(appointmenttype=appointment_type.serialize()))
+        return dict(status="ok", data=dict(appointmenttype={
+            'id': appointment_type.id,
+            'name': appointment_type.name,
+            'initial_hour':appointment_type.initial_hour,
+            'final_hour': appointment_type.final_hour,
+            'duration': appointment_type.duration,
+            'spots': appointment_type.spots,
+            'appointment': appointment_type.serialize_list(elements=appointment_type.appointment),
+        }))
     return dict(status="error", msg="Request not allowed")
 
 
